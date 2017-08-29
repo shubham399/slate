@@ -220,6 +220,11 @@
       <div id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#welcome-to-passetto" class="toc-h2 toc-link" data-title="Introduction">Welcome to Passetto</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#usages-of-passetto" class="toc-h1 toc-link" data-title="Usages of Passetto">Usages of Passetto</a>
@@ -258,9 +263,7 @@
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to Passetto, This is a service which provide service like create keypair,update keypair, encrypt/decrypt message, Sign and Verify String message and XML files.</p>
-
+        <h1 id='introduction'>Introduction</h1><h2 id='welcome-to-passetto'>Welcome to Passetto</h2>
 <blockquote>
 <p>Use case of the APIs</p>
 </blockquote>
@@ -300,7 +303,17 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
     "xml": "&lt;note&gt;&lt;to&gt; Tove &lt;/to&gt; &lt;from&gt; Jani &lt;/from&gt; &lt;heading&gt; Reminder &lt;/heading&gt; &lt;body&gt; Do not forget me this weekend! &lt;/body&gt; &lt;/note&gt;",
   "ref": "body"
   }'</span> http://localhost:8013/signXML
-</code></pre><h1 id='usages-of-passetto'>Usages of Passetto</h1><h2 id='create'>Create</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+</code></pre>
+<p>Passetto is a service which allow clients to<br>
+* create - asymmetric key pair which is stored in the Database<br>
+* upload - Upload a Public Key or a Public certificate<br>
+* update - Update the status of a Particular ID<br>
+* signString - Sign a message with a Private key<br>
+* verifyString - verify the signature of a message<br>
+* signXML - Sign a XML Content<br>
+* verifyXML - verify the signature of the XML<br>
+This Documentation will walk you through its various APIs and their implemantaion</p>
+<h1 id='usages-of-passetto'>Usages of Passetto</h1><h2 id='create'>Create</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
   "id":"BHS1DB1TB10987654321",
 "options":{"algo":"RSA"}
 }'</span> http://localhost:8013/create
@@ -319,7 +332,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API let the User to generate a Keypair and Store it in the Passetto Database</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/create</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<h3 id='parameters'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -362,7 +375,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 </aside></p>
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/upload</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<h3 id='parameters-2'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -405,7 +418,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API is used to Update the active state of a keystore</p>
 <h3 id='http-request-3'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/update</code></p>
-<h3 id='parameters'>Parameters</h3>
+<h3 id='parameters-3'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -440,7 +453,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API is used to Sign a message using a key mapped from the ID and alias</p>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/signString</code></p>
-<h3 id='parameters-2'>Parameters</h3>
+<h3 id='parameters-4'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -479,7 +492,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API is used to verify the Signed  message using a key mapped from the ID and alias</p>
 <h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/verifyString</code></p>
-<h3 id='parameters-3'>Parameters</h3>
+<h3 id='parameters-5'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -522,7 +535,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API is used to sign a XML document part</p>
 <h3 id='http-request-6'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/signXML</code></p>
-<h3 id='parameters-4'>Parameters</h3>
+<h3 id='parameters-6'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -560,7 +573,7 @@ curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <spa
 <p>This API is used to verify a Signed XML document</p>
 <h3 id='http-request-7'>HTTP Request</h3>
 <p><code>POST http://localhost:8013/verifyXML</code></p>
-<h3 id='parameters-5'>Parameters</h3>
+<h3 id='parameters-7'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
