@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Passetto v2</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -212,9 +212,6 @@
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -225,19 +222,28 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#usages-of-passetto" class="toc-h1 toc-link" data-title="Usages of Passetto">Usages of Passetto</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Kittens">Get All Kittens</a>
+                    <a href="#create" class="toc-h2 toc-link" data-title="Usages of Passetto">Create</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Kittens">Get a Specific Kitten</a>
+                    <a href="#upload" class="toc-h2 toc-link" data-title="Usages of Passetto">Upload</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Kittens">Delete a Specific Kitten</a>
+                    <a href="#update" class="toc-h2 toc-link" data-title="Usages of Passetto">Update</a>
+                  </li>
+                  <li>
+                    <a href="#sign-string" class="toc-h2 toc-link" data-title="Usages of Passetto">Sign String</a>
+                  </li>
+                  <li>
+                    <a href="#verify-string" class="toc-h2 toc-link" data-title="Usages of Passetto">Verify String</a>
+                  </li>
+                  <li>
+                    <a href="#sign-xml" class="toc-h2 toc-link" data-title="Usages of Passetto">Sign XML</a>
+                  </li>
+                  <li>
+                    <a href="#verify-xml" class="toc-h2 toc-link" data-title="Usages of Passetto">Verify XML</a>
                   </li>
               </ul>
           </li>
@@ -246,7 +252,6 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -254,79 +259,66 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to Passetto, This is a service which provide service like create keypair,update keypair, encrypt/decrypt message, Sign and Verify String message and XML files.</p>
 
-<p>We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-
-<p>This example API documentation page was created with <a href="https://github.com/tripit/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>Use case of the APIs</p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># An Example of Create</span>
+curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id":"BHS1DB1TB10987654321",
+"options":{"algo":"RSA"}
+}'</span> http://localhost:8013/create
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="c"># An Example of Upload</span>
+<span class="c"># NOTE: public key or certificate must be a base64 encoded message of the pem/crt</span>
+<span class="c"># Need to provide one of key or certificate</span>
+curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id":"BHS1DB1TB10987654321",
+    "public":"&lt;some value optional&gt;",
+    "certificate":"&lt;somevalue&gt;"}'</span> http://localhost:8013/upload
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<span class="c"># An Example of SignString</span>
+curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+    "id": "BHS1DB1TB10987654321",
+    "alias": 3,
+    "message": "test"
+}'</span> http://localhost:8013/signString
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<span class="c"># An Example of VerifyString</span>
+curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id": "BHS1DB1TB10987654321",
+    "alias":1,
+    "message": "test",
+    "sign": "VV2fbheP/hBiHEZ59OKKLuy0IgTxIOvbGZyYe0epYiLrxiUpsvpqTWxu6lm06mCkyunpbAgTSyPNejxrU+cEO3bIZvzV2CqOW4LXLKOTAual8IaX1pRR62sd+kDpeoJ5DIjo2doSp4hiIG+FqEzuaulS0zBETTDLY6R17jjR4D5LzYod7qgqDCxwgnGfv3fbbJVetgrhzYKG/RLQZCZx8Bz1CutczfpwbbSSqv2zhYzgI7ka+3U3lPq62mefPcdJ0UvKGOVvO6DrDnkcxkHA9HofqAzVXRt/LZGhVCSz3UFg7ThcZzZldrlMgzJ0XlpIHtyM91FPZahweyR4cvtvDA=="
+}'</span> http://localhost:8013/verifyString
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
+<span class="c"># An Example of SignXML</span>
+curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id": "BHS1DB1TB10987654321",
+    "alias":1,
+    "xml": "&lt;note&gt;&lt;to&gt; Tove &lt;/to&gt; &lt;from&gt; Jani &lt;/from&gt; &lt;heading&gt; Reminder &lt;/heading&gt; &lt;body&gt; Do not forget me this weekend! &lt;/body&gt; &lt;/note&gt;",
+  "ref": "body"
+  }'</span> http://localhost:8013/signXML
+</code></pre><h1 id='usages-of-passetto'>Usages of Passetto</h1><h2 id='create'>Create</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id":"BHS1DB1TB10987654321",
+"options":{"algo":"RSA"}
+}'</span> http://localhost:8013/create
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of keys"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of Certificates"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
+<p>This API let the User to generate a Keypair and Store it in the Passetto Database</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
+<p><code>POST http://localhost:8013/create</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
@@ -336,91 +328,82 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>id</td>
+<td>null</td>
+<td>Need to Provide a 20 characters ID which need to map to the Database.</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>options</td>
+<td>{&quot;algo&quot;:&quot;RSA&quot;}</td>
+<td>Can be used to Provide different Algo for Key Supported RSA. DSA will be added soon</td>
 </tr>
 </tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<h2 id='upload'>Upload</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span>
+  -X POST
+  -d <span class="s1">'{
+    "id":"BHS1DB1TB10987654321",
+    "public":"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF6SlFQbzdOdW4ycmtucktGWFJ1RgpuOUl3cmN3aC9CdFltSCs1eU41QlgxNXdRbGU1QnN3NjJmMUFsNnhDMDNPaC9nMEtCZmpvbDR0ZGxzMGRWUkFXCjVNekJyNEw0anJVNWVvcy9udGRPWnd3MzRsWjZNc25BLzM0a1J1ZmxCZnQ2OXhMb1NobVVMT2ROSVErS09ndzQKbmtwaUhlNm5nSXhRbXdrMmpyOUJPSTVYcjlyMk5mNlVudjJIdVc2SzRPcjZTUjliMU5xWXpySUhTK0dNU2RhdwpPeXR2b1FwY3dHZHNhM2FGRTBmc1crSURXOXMzT1Q1T3dhV3JWMzFhbTVkK0RKZ3BFSE5SMVI0LzlNZjFSNEthCmxpVHBIK056UVo1V1d1M1NpNmpjREo5RndkUFYxOWkxeFNaeXRGenVjb01UYTRaV1I5THNJRythR2dyQzNRUG0KN3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+}'</span> http://localhost:8013/upload
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of keys"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of Certificates"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>In This API we can upload our own public key or certificate to the server
+<br><strong>NOTE</strong> Make Sure You Send the Public Key or Certificate as base64 encoded string of the pem/crt file</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
+<p><code>POST http://localhost:8013/upload</code></p>
 <h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>id</td>
+<td>-</td>
+<td>Need to Provide a 20 characters ID which need to map to the Database</td>
+</tr>
+<tr>
+<td>public</td>
+<td>null</td>
+<td>base64 encoded public key pem file content</td>
+</tr>
+<tr>
+<td>certificate</td>
+<td>null</td>
+<td>base64 encoded certificate file content</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<h2 id='update'>Update</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id":"BHS1DB1TB10987654321",
+"active": false
+}'</span> http://localhost:8013/update
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Success"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of keys"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"Number of Certificates"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>This API is used to Update the active state of a keystore</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<p><code>POST http://localhost:8013/update</code></p>
+<h3 id='parameters'>Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -428,14 +411,179 @@ Remember — a happy kitten is an authenticated kitten!
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>id</td>
+<td>An Existing id</td>
+</tr>
+<tr>
+<td>active</td>
+<td>either true or false</td>
+</tr>
+</tbody></table>
+<h2 id='sign-string'>Sign String</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+"id":"BHS1DB1TB10987654321",
+"alias":2,
+"message":"Test Message"
+}'</span> http://localhost:8013/signString
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"alias"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test Message"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"sign"</span><span class="p">:</span><span class="w"> </span><span class="s2">"W9SIR9XHpA4EEAIA5g2xRaugqNyd5OkYCpk6MBGHTyqBR6VwJAK4SJVzoCWK4bVx3pw2g7eBNOvhksxRjMk06iPLCM7pMottlgOGp41Vi/oGwLak0wEDkN4qNqqAgRgQJEaTJLL8o5YBd1nx2BlTuv9nOJSwK8dGnVpBcn6tMjQX2D6+QWrza88z0hvZeBs4fvoQUQuZZiYG4BoThN3T1v/8/neiwSYaMXxkLMN2jlkEOrzSyOV2Q1UCpKIqGOhdmGQCmsonKW/UU0SRp7r5RVSLhjoP3vFhdouS0QCngLKLn5dABdrzvSd6EIjk7Mxc/qM/0z/3B/IXwmvG5KjQaV5SFWneVESv84sOpgzUTdB9G+/rAay5sMZqpcyUby4RfQW6wuYb4hussqLdBTuUXsy9Romqju9PkiSTCZXoK3zxFRJTnfTl3zi1Y65ty3+tG22fre95o4zefW7xJy2veJCkv41eHYW2PYgNI8p9/RLK87OTBgvVjKqNiDJhMEZn+MoCkt662hJD0gckeIu4ffPQJYpxnHQUUVusIpEB66alswKjEUcjREO/7F5PNgNsRinmxQhSOsWthRIGus65ixosPDPFyzz3C0+2/RkOGvHLadz8E+tPcoiBcLqzXyuJmjSPjdZ9WC7kRuYWGoCeYHFX1MDWkvyyG43H3dwMxY4="</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This API is used to Sign a message using a key mapped from the ID and alias</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST http://localhost:8013/signString</code></p>
+<h3 id='parameters-2'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>An Existing id</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>A Valid alias</td>
+</tr>
+<tr>
+<td>message</td>
+<td>A string message which need to be signed</td>
+</tr>
+</tbody></table>
+<h2 id='verify-string'>Verify String</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+    "id": "BHS1DB1TB10987654321",
+    "alias": 2,
+    "message": "Test Message",
+    "sign": "W9SIR9XHpA4EEAIA5g2xRaugqNyd5OkYCpk6MBGHTyqBR6VwJAK4SJVzoCWK4bVx3pw2g7eBNOvhksxRjMk06iPLCM7pMottlgOGp41Vi/oGwLak0wEDkN4qNqqAgRgQJEaTJLL8o5YBd1nx2BlTuv9nOJSwK8dGnVpBcn6tMjQX2D6+QWrza88z0hvZeBs4fvoQUQuZZiYG4BoThN3T1v/8/neiwSYaMXxkLMN2jlkEOrzSyOV2Q1UCpKIqGOhdmGQCmsonKW/UU0SRp7r5RVSLhjoP3vFhdouS0QCngLKLn5dABdrzvSd6EIjk7Mxc/qM/0z/3B/IXwmvG5KjQaV5SFWneVESv84sOpgzUTdB9G+/rAay5sMZqpcyUby4RfQW6wuYb4hussqLdBTuUXsy9Romqju9PkiSTCZXoK3zxFRJTnfTl3zi1Y65ty3+tG22fre95o4zefW7xJy2veJCkv41eHYW2PYgNI8p9/RLK87OTBgvVjKqNiDJhMEZn+MoCkt662hJD0gckeIu4ffPQJYpxnHQUUVusIpEB66alswKjEUcjREO/7F5PNgNsRinmxQhSOsWthRIGus65ixosPDPFyzz3C0+2/RkOGvHLadz8E+tPcoiBcLqzXyuJmjSPjdZ9WC7kRuYWGoCeYHFX1MDWkvyyG43H3dwMxY4="
+}'</span> http://localhost:8013/verifyString
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"alias"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This API is used to verify the Signed  message using a key mapped from the ID and alias</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST http://localhost:8013/verifyString</code></p>
+<h3 id='parameters-3'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>An Existing id</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>A Valid alias</td>
+</tr>
+<tr>
+<td>message</td>
+<td>A string message which need to be signed</td>
+</tr>
+<tr>
+<td>sign</td>
+<td>A base64 encoded sign for the above message</td>
+</tr>
+</tbody></table>
+<h2 id='sign-xml'>Sign XML</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+  "id": "BHS1DB1TB10987654321",
+  "alias": 2,
+  "xml": "&lt;note&gt;&lt;to&gt; Tove &lt;/to&gt; &lt;from&gt; Jani &lt;/from&gt; &lt;heading&gt; Reminder &lt;/heading&gt; &lt;body&gt; Do not forget me this weekend! &lt;/body&gt; &lt;/note&gt;",
+  "ref": "body"
+}'</span> http://localhost:8013/signXML
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"alias"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"signedxml"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;note&gt;&lt;to&gt; Tove &lt;/to&gt; &lt;from&gt; Jani &lt;/from&gt; &lt;heading&gt; Reminder &lt;/heading&gt; &lt;body Id=</span><span class="se">\"</span><span class="s2">_0</span><span class="se">\"</span><span class="s2">&gt; Do not forget me this weekend! &lt;/body&gt; &lt;Signature xmlns=</span><span class="se">\"</span><span class="s2">http://www.w3.org/2000/09/xmldsig#</span><span class="se">\"</span><span class="s2">&gt;&lt;SignedInfo&gt;&lt;CanonicalizationMethod Algorithm=</span><span class="se">\"</span><span class="s2">http://www.w3.org/2001/10/xml-exc-c14n#</span><span class="se">\"</span><span class="s2">/&gt;&lt;SignatureMethod Algorithm=</span><span class="se">\"</span><span class="s2">http://www.w3.org/2000/09/xmldsig#rsa-sha1</span><span class="se">\"</span><span class="s2">/&gt;&lt;Reference URI=</span><span class="se">\"</span><span class="s2">#_0</span><span class="se">\"</span><span class="s2">&gt;&lt;Transforms&gt;&lt;Transform Algorithm=</span><span class="se">\"</span><span class="s2">http://www.w3.org/2001/10/xml-exc-c14n#</span><span class="se">\"</span><span class="s2">/&gt;&lt;/Transforms&gt;&lt;DigestMethod Algorithm=</span><span class="se">\"</span><span class="s2">http://www.w3.org/2000/09/xmldsig#sha1</span><span class="se">\"</span><span class="s2">/&gt;&lt;DigestValue&gt;TKFtEaWXEB7wW+250TNEAWBT5Ts=&lt;/DigestValue&gt;&lt;/Reference&gt;&lt;/SignedInfo&gt;&lt;SignatureValue&gt;Gh7rlCbOutwLsIn3B03ui/jn4aA+30Bq/Uf7xrgk/t3xuMlvhGe1nsFd/mQO7ijCJU9fclCaUd48P+iGq/MuMdoOjZIF4L3i/ddCmP2g29zRKbOgswYqIfBiP4ValBnGN9jF1pkcSr0CkOt/nWwtUrbR046h9IlHHQpfENoLFRkw6F9iRbtoy+dYzXX4dmko/l11PIPa+dXph5eY5ogtsqgfNq5uH4F0c+MW7peE3rOAtdL644dT3/H9Wmonygjju8O99Awbj30B0aHupnWen7NbqDBlLqToO8FQzScI1aEGPJgYbkFBu9/89qmtZAbRJb0k7W4W1aqzQRvzMNqT6aZaxLTBf7yuEQoS93ehKFG380vVmS+IagHgsNpActomxZIwEb43nuEQ/5AGXX87PCJGtQgqZRb7HDkU9gaMj09L1xBU1JOAqjXHDaNFQXVHfzd0mska7gxYniytbj5Ulej/MsSXID0jMWiJWlcw4xQmfUgBROSGLiA8Oy4ZKD+ow2cAaoOLyfFILBzDRD4l3F3VVEaNW2b7PNVZqbuev1Uu9qXtJy6baOqPtIqGzt49wGs7F0vSBuDvo33z92bxV5b3U6a2YNa9RiX1Is3EHMNTTzxekvuhmCcAqtxvSl8F2AQajjKZ6t1BE3hUxA5nbvwh8MH+Dg6EETEq35610a0=&lt;/SignatureValue&gt;&lt;/Signature&gt;&lt;/note&gt;"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This API is used to sign a XML document part</p>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST http://localhost:8013/signXML</code></p>
+<h3 id='parameters-4'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>An Existing id</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>A Valid alias</td>
+</tr>
+<tr>
+<td>message</td>
+<td>A XML message which need to be signed</td>
+</tr>
+</tbody></table>
+<h2 id='verify-xml'>Verify XML</h2><pre class="highlight shell tab-shell"><code>curl -H <span class="s2">"Content-Type: application/json"</span> -X POST -d <span class="s1">'{
+    "id": "BHS1DB1TB10987654321",
+    "alias": 2,
+    "signedxml": "&lt;note&gt;&lt;to&gt; Tove &lt;/to&gt; &lt;from&gt; Jani &lt;/from&gt; &lt;heading&gt; Reminder &lt;/heading&gt; &lt;body Id=\"_0\"&gt; Do not forget me this weekend! &lt;/body&gt; &lt;Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\"&gt;&lt;SignedInfo&gt;&lt;CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/&gt;&lt;SignatureMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#rsa-sha1\"/&gt;&lt;Reference URI=\"#_0\"&gt;&lt;Transforms&gt;&lt;Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/&gt;&lt;/Transforms&gt;&lt;DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/&gt;&lt;DigestValue&gt;TKFtEaWXEB7wW+250TNEAWBT5Ts=&lt;/DigestValue&gt;&lt;/Reference&gt;&lt;/SignedInfo&gt;&lt;SignatureValue&gt;Gh7rlCbOutwLsIn3B03ui/jn4aA+30Bq/Uf7xrgk/t3xuMlvhGe1nsFd/mQO7ijCJU9fclCaUd48P+iGq/MuMdoOjZIF4L3i/ddCmP2g29zRKbOgswYqIfBiP4ValBnGN9jF1pkcSr0CkOt/nWwtUrbR046h9IlHHQpfENoLFRkw6F9iRbtoy+dYzXX4dmko/l11PIPa+dXph5eY5ogtsqgfNq5uH4F0c+MW7peE3rOAtdL644dT3/H9Wmonygjju8O99Awbj30B0aHupnWen7NbqDBlLqToO8FQzScI1aEGPJgYbkFBu9/89qmtZAbRJb0k7W4W1aqzQRvzMNqT6aZaxLTBf7yuEQoS93ehKFG380vVmS+IagHgsNpActomxZIwEb43nuEQ/5AGXX87PCJGtQgqZRb7HDkU9gaMj09L1xBU1JOAqjXHDaNFQXVHfzd0mska7gxYniytbj5Ulej/MsSXID0jMWiJWlcw4xQmfUgBROSGLiA8Oy4ZKD+ow2cAaoOLyfFILBzDRD4l3F3VVEaNW2b7PNVZqbuev1Uu9qXtJy6baOqPtIqGzt49wGs7F0vSBuDvo33z92bxV5b3U6a2YNa9RiX1Is3EHMNTTzxekvuhmCcAqtxvSl8F2AQajjKZ6t1BE3hUxA5nbvwh8MH+Dg6EETEq35610a0=&lt;/SignatureValue&gt;&lt;/Signature&gt;&lt;/note&gt;"
+}'</span> http://localhost:8013/verifyXML
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BHS1DB1TB10987654321"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"alias"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>This API is used to verify a Signed XML document</p>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST http://localhost:8013/verifyXML</code></p>
+<h3 id='parameters-5'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>An Existing id</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>A Valid alias</td>
+</tr>
+<tr>
+<td>signedxml</td>
+<td>A signed XML content</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
+<!--
 <aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
+-->
 
-<p>The Kittn API uses the following error codes:</p>
+<p>The Passetto API uses the following error codes:</p>
 
 <table><thead>
 <tr>
@@ -445,39 +593,55 @@ Remember — a happy kitten is an authenticated kitten!
 </thead><tbody>
 <tr>
 <td>400</td>
-<td>Bad Request -- Your request sucks</td>
+<td>Invalid ID -- The ID you provided is Invalid</td>
 </tr>
 <tr>
 <td>401</td>
-<td>Unauthorized -- Your API key is wrong</td>
+<td>Invalid Alias -- The Alias was invalid or not Found</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Invalid Message -- The Message you provided was not in the expected format</td>
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only</td>
+<td>Invalid XML  -- The XML you Provided is Invalid.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found</td>
+<td>Invalid Reference -- The Reference to Sign the XML is Invalid.</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method</td>
+<td>Invalid Sign String -- The Sign  Provided to Verify String is Invalid</td>
 </tr>
 <tr>
 <td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json</td>
+<td>Invalid Sign XML -- The Sign Provided to Verify XML is Invalid</td>
+</tr>
+<tr>
+<td>407</td>
+<td>Private Key Null -- Private Key for the given ID and alias is null.</td>
+</tr>
+<tr>
+<td>408</td>
+<td>Invalid Key Format -- Invalid Public Key</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Database Connection Error -- There was error in Database validation</td>
 </tr>
 <tr>
 <td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers</td>
+<td>ID Inactive -- The ID requested is Inactive</td>
 </tr>
 <tr>
-<td>418</td>
-<td>I&#39;m a teapot</td>
+<td>411</td>
+<td>Public Key already exist --  The Public Key Uploaded already exist</td>
 </tr>
 <tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>412</td>
+<td>Certificate already exist -- The Certificate Uploaded already exist</td>
 </tr>
 <tr>
 <td>500</td>
@@ -493,9 +657,6 @@ Remember — a happy kitten is an authenticated kitten!
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
